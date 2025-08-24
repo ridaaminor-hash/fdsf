@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 80 80" fill="none">
+  <rect width="80" height="80" rx="12" fill="#0F766E"/>
+  <circle cx="40" cy="40" r="26" fill="#0EA5E9"/>
+  <text x="40" y="46" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">CPD</text>
+</svg>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Masterclass IA Clinique</title>
+  <meta name="description" content="Practical prompts for doctors. Clinically-vetted masterclass with templates and certificate." />
+
+  <!-- Performance: preload hero image (placeholder) -->
+  <link rel="preload" as="image" href="https://placehold.co/1600x900/webp?text=Hero" imagesrcset="https://placehold.co/800x450/webp?text=Hero 800w, https://placehold.co/1200x675/webp?text=Hero 1200w, https://placehold.co/1600x900/webp?text=Hero 1600w" imagesizes="(max-width: 768px) 100vw, 900px">
+
+  <!-- GA4 gtag (replace G-XXXXXXX) + linker for podia domain -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX', {
+      linker: { domains: ['localhost','yourdomain.com','sihamlamsy.podia.com'] }
+    });
+  </script>
+
+  <style>
+    :root{ --primary:#0066CC; --accent:#0F766E; --muted:#4B5563; --danger:#B91C1C; --bg:#ffffff; --radius:8px; }
+    html, body { margin:0; padding:0; font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:#fff; color:#0b1220; }
+
+    /* Hero */
+    .hero { padding:48px 24px; display:block; max-width:1200px; margin:0 auto; }
+    .hero-title { font-size:40px; font-weight:700; color:#0b1220; margin-bottom:16px; line-height:1.05; max-width:900px; }
+    .hero-subhead { font-size:18px; color:var(--muted); margin-bottom:24px; max-width:760px; }
+
+    /* Chips */
+    .outcome-chips { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+    .chip { background:#f3f4f6; padding:8px 12px; border-radius:24px; font-size:13px; color:#0b1220; }
+
+    /* Buttons */
+    .btn-primary { background:var(--primary); color:#fff; padding:12px 18px; border-radius:var(--radius); border:0; font-size:16px; cursor:pointer; }
+    .btn-primary.small { padding:8px 12px; font-size:14px; }
+    .btn-outline { background:transparent; color:var(--primary); border:2px solid var(--primary); padding:10px 14px; border-radius:var(--radius); text-decoration:none; display:inline-block; }
+
+    /* Modal */
+    .modal { display:none; position:fixed; inset:0; z-index:9999; }
+    .modal[aria-hidden="false"] { display:block; }
+    .modal-backdrop { position:absolute; inset:0; background:rgba(2,6,23,0.55); }
+    .modal-panel { position:relative; max-width:980px; margin:48px auto; background:#fff; padding:20px; border-radius:12px; box-shadow:0 12px 36px rgba(2,6,23,0.16); z-index:10000; outline: none; }
+    .modal-close { position:absolute; right:12px; top:12px; background:none; border:0; font-size:24px; cursor:pointer; }
+    .modal-content { display:grid; grid-template-columns:1fr; gap:16px; }
+    @media (min-width: 900px){ .modal-content { grid-template-columns:1fr 1fr; } }
+
+    /* Form */
+    .lead-form { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:16px; }
+    .lead-form input, .lead-form select { padding:10px 12px; border:1px solid #E5E7EB; border-radius:8px; min-width:200px; }
+    .form-error { color:var(--danger); font-size:13px; margin-top:8px; }
+
+    /* Accreditation */
+    .accreditation { display:flex; align-items:center; gap:8px; margin:12px 0 0; }
+    .accreditation-text { font-size:14px; color:#334155; }
+
+    .cta-row { display:flex; gap:12px; align-items:center; margin:12px 0; flex-wrap:wrap; }
+
+    /* Accessibility helper */
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    /* Stickybar (simple) */
+    .stickybar{position:fixed;left:0;right:0;bottom:12px;margin:auto;max-width:860px;z-index:9000;display:none;background:#0f172a;color:#fff;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.18);padding:10px 14px}
+    .stickybar__inner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .stickybar__title{font-weight:700}
+    .stickybar__price{font-weight:900;font-size:14px}
+    .stickybar .btn-primary{padding:10px 16px;border-radius:8px;background:var(--primary)}
+    .stickybar__close{background:none;border:0;color:#fff;font-size:18px;cursor:pointer}
+    .stickybar__meta{font-size:12px;opacity:.85}
+    .stickybar__price .was{opacity:.6;text-decoration:line-through}
+
+    /* Focus outlines */
+    :focus { outline:3px solid #FFB84D; outline-offset:3px; }
+  </style>
+</head>
+<body class="bg-white antialiased">
+  <!-- HERO -->
+  <section id="hero" class="hero" aria-labelledby="hero-title" role="region">
+    <div class="hero-inner">
+      <div class="eyebrow" id="hero-eyebrow">LinkedIn Ad: Save 2 clinic hours / week</div>
+      <h1 id="hero-title" class="hero-title">Practical Prompts for Doctors — Save 2 Clinic Hours / Week</h1>
+      <p class="hero-subhead">A clinically-vetted prompt-engineering masterclass with templates, audit-ready prompts, and a certificate of completion.</p>
+
+      <div class="outcome-chips" role="list" aria-label="Key outcomes">
+        <div class="chip" role="listitem">Save 2+ hrs / week</div>
+        <div class="chip" role="listitem">Write SOAP notes 40% faster</div>
+        <div class="chip" role="listitem">Audit-ready, safety-checked prompts</div>
+      </div>
+
+      <div class="cta-row">
+        <button id="primary-cta" class="btn-primary" data-cta-id="hero_primary" aria-haspopup="dialog" aria-controls="precheckout-modal">Enroll — Secure Checkout (Invoice/PO available)</button>
+        <a href="#curriculum" id="secondary-cta" class="btn-outline" data-cta-id="preview_syllabus">Preview Syllabus</a>
+      </div>
+
+      <div class="accreditation" aria-hidden="false">
+        <img src="/assets/cme-badge.svg" alt="CPD/CE accreditation: Issuer" width="40" height="40">
+        <span class="accreditation-text">CPD: 6 hours — Issued by Issuer</span>
+      </div>
+
+      <!-- Lead capture (email) microform -->
+      <form id="lead-form" class="lead-form" autocomplete="on" novalidate>
+        <label for="lead-name" class="sr-only">Full name</label>
+        <input id="lead-name" name="name" type="text" placeholder="Dr. Firstname Lastname" autocomplete="name" inputmode="text">
+
+        <label for="lead-email" class="sr-only">Professional email</label>
+        <input id="lead-email" name="email" type="email" placeholder="prenom.nom@hopital.fr" autocomplete="email" required inputmode="email">
+
+        <input id="lead-org" name="organization" type="text" placeholder="Hospital / Clinic (optional)" autocomplete="organization">
+        <select id="lead-role" name="role" aria-label="Role">
+          <option value="">Role (optional)</option>
+          <option>Resident</option>
+          <option>GP</option>
+          <option>Specialist</option>
+          <option>Department Lead</option>
+        </select>
+
+        <div class="form-meta">
+          <label class="consent">
+            <input type="checkbox" id="consent" name="consent" required>
+            I consent to processing my professional email for course access and billing. <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button id="lead-submit" class="btn-primary small" type="submit" data-cta-id="lead_form_submit">Get Access / Continue to Checkout</button>
+        </div>
+
+        <div id="form-error" role="status" aria-live="polite" class="form-error" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- PRE-CHECKOUT MODAL -->
+  <div id="precheckout-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="precheckout-title" aria-hidden="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="document" tabindex="-1">
+      <button class="modal-close" aria-label="Close preview" data-close>&times;</button>
+
+      <h2 id="precheckout-title">Secure Checkout Preview</h2>
+
+      <div class="modal-content">
+        <div class="checkout-preview">
+          <img src="https://placehold.co/600x350/webp?text=Podia+Checkout+Preview" alt="Preview of the secure Podia checkout" width="600" height="350" loading="lazy">
+        </div>
+        <div class="checkout-info">
+          <p><strong>What happens next:</strong> You will be redirected to a secure Podia checkout. You can pay by card or request an invoice / PO — select "Invoice" at checkout or contact <a href="mailto:billing@yourdomain.com">billing@yourdomain.com</a>.</p>
+          <p><strong>Accepted payments:</strong> Visa • Mastercard • SEPA • Invoice (PO)</p>
+          <p class="modal-actions">
+            <button id="modal-continue" class="btn-primary" data-action="continue-to-podia">Continue to Secure Checkout</button>
+            <button class="btn-outline" data-close>Cancel</button>
+          </p>
+        </div>
+      </div>
+      <div class="modal-foot">14-day money-back guarantee • Certificate of completion (CPD: 6 hrs)</div>
+    </div>
+  </div>
+
+  <!-- Server-driven expiry example -->
+  <div id="offer-expiry" data-offer-expire="">Offer expires soon…</div>
+
+  <!-- Sticky bar -->
+  <div class="stickybar" id="stickybar" role="region" aria-label="Barre d’action">
+    <div class="stickybar__inner">
+      <div>
+        <div class="stickybar__title">Masterclass IA Clinique</div>
+        <div class="stickybar__price">89&nbsp;€ <span class="was">179&nbsp;€</span> <span class="stickybar__meta">• se termine dans <span class="stickybar__countdown" id="stickyCountdown">--:--:--</span></span></div>
+      </div>
+      <button class="btn-primary" id="sticky-cta" aria-label="S'inscrire via la barre collante">Intégrer</button>
+      <button class="stickybar__close" id="stickybarClose" aria-label="Fermer la barre">✕</button>
+    </div>
+  </div>
+
+  <!-- CONTENT PLACEHOLDER: You can migrate your sections (reviews, curriculum, instructors, FAQ) here. -->
+
+  <script>
+    // Config placeholders
+    const PODIA_CHECKOUT_URL = "https://sihamlamsy.podia.com/masterclass-prompting-clinique/buy?prefill_email={email}";
+
+    // dataLayer helper
+    window.dataLayer = window.dataLayer || [];
+    function dlPush(eventName, params = {}) {
+      window.dataLayer.push(Object.assign({ event: eventName }, params));
+      if (window.gtag) { window.gtag('event', eventName, params); }
+    }
+
+    // Sticky bar behavior
+    (function(){
+      const hero = document.getElementById('hero');
+      const bar = document.getElementById('stickybar');
+      const close = document.getElementById('stickybarClose');
+      if (!hero || !bar || !close) return;
+      let dismissed = false;
+      function showBar(){ if(!dismissed) bar.style.display='block'; }
+      function hideBar(){ bar.style.display='none'; }
+      close.addEventListener('click', ()=>{ dismissed = true; hideBar(); });
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(entry => { if (entry.isIntersecting) hideBar(); else showBar(); });
+        }, { threshold: 0.1 });
+        io.observe(hero);
+      }
+    })();
+
+    // Modal helpers
+    const modal = document.getElementById('precheckout-modal');
+    const primaryCta = document.getElementById('primary-cta');
+    const stickyCta = document.getElementById('sticky-cta');
+    const modalContinue = document.getElementById('modal-continue');
+    const modalCloses = document.querySelectorAll('[data-close]');
+
+    let lastFocused = null;
+    function openModal() {
+      lastFocused = document.activeElement;
+      modal.setAttribute('aria-hidden','false');
+      const panel = modal.querySelector('.modal-panel');
+      if (panel) panel.focus();
+      dlPush('cta_click', { cta_id: 'hero_primary' });
+    }
+    function closeModal() {
+      modal.setAttribute('aria-hidden','true');
+      if (lastFocused && typeof lastFocused.focus === 'function') { lastFocused.focus(); }
+    }
+
+    function attachOpen(el){ if (el) el.addEventListener('click', (e)=>{ e.preventDefault(); openModal(); }); }
+    attachOpen(primaryCta); attachOpen(stickyCta);
+    modalCloses.forEach(btn => btn.addEventListener('click', closeModal));
+
+    // Focus trap inside modal
+    document.addEventListener('keydown', (e) => {
+      if (modal.getAttribute('aria-hidden') === 'true') return;
+      if (e.key === 'Escape') return closeModal();
+      if (e.key !== 'Tab') return;
+      const focusables = modal.querySelectorAll('a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])');
+      const list = Array.from(focusables).filter(el => !el.hasAttribute('disabled'));
+      if (list.length === 0) return;
+      const first = list[0];
+      const last = list[list.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    // Lead form submit logic
+    const leadForm = document.getElementById('lead-form');
+    leadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('lead-email').value.trim();
+      const name = document.getElementById('lead-name').value.trim();
+      const org = document.getElementById('lead-org').value.trim();
+      const role = document.getElementById('lead-role').value;
+      const consent = document.getElementById('consent').checked;
+
+      if (!email || !consent) {
+        const err = document.getElementById('form-error');
+        err.hidden = false; err.textContent = "Please enter a professional email and accept the privacy consent.";
+        return;
+      }
+
+      dlPush('lead_form_start', { email_domain: email.split('@')[1] });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const utm = {
+        utm_source: urlParams.get('utm_source') || null,
+        utm_medium: urlParams.get('utm_medium') || null,
+        utm_campaign: urlParams.get('utm_campaign') || null
+      };
+
+      try {
+        const res = await fetch('/api/leads', {
+          method: 'POST', headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ name, email, org, role, consent, utm, referrer: document.referrer || null, page: window.location.pathname })
+        });
+        const payload = await res.json();
+        if (!res.ok) throw payload;
+
+        dlPush('lead_form_submit', { lead_id: payload.lead_id });
+        closeModal();
+
+        const redirectUrl = PODIA_CHECKOUT_URL.replace('{email}', encodeURIComponent(email));
+        dlPush('checkout_start', { method: 'podia_redirect', lead_id: payload.lead_id, email_domain: email.split('@')[1] });
+
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/track-outbound', new Blob([JSON.stringify({ event: 'checkout_redirect', redirectUrl, lead_id: payload.lead_id })], { type: 'application/json' }));
+          window.location.href = redirectUrl;
+        } else {
+          setTimeout(() => window.location.href = redirectUrl, 250);
+        }
+      } catch (err) {
+        console.error('Lead submit failed', err);
+        const errorEl = document.getElementById('form-error');
+        errorEl.hidden = false; errorEl.textContent = "An error occurred — please try again or contact billing@yourdomain.com";
+        dlPush('lead_form_error', { error: String(err?.error || err) });
+      }
+    });
+
+    // Modal continue button
+    modalContinue.addEventListener('click', () => {
+      const email = document.getElementById('lead-email').value.trim();
+      if (!email) { document.getElementById('lead-email').focus(); return; }
+      document.getElementById('lead-submit').click();
+    });
+
+    // Server-driven expiry: fetch from /api/config
+    (async function(){
+      try {
+        const res = await fetch('/api/config');
+        const cfg = await res.json();
+        const el = document.getElementById('offer-expiry');
+        const iso = cfg.offerExpireAt;
+        el.setAttribute('data-offer-expire', iso);
+        const dt = new Date(iso);
+        el.textContent = `Offer expires ${dt.toLocaleString('en-GB', { dateStyle:'medium', timeStyle:'short', timeZone:'Europe/Paris' })}`;
+
+        // Also run countdown to the same timestamp for sticky bar
+        const stickyEl = document.getElementById('stickyCountdown');
+        function fmt(ms){ if(ms<0)ms=0; const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60; return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+        function tick(){ const rem = new Date(iso).getTime() - Date.now(); if (stickyEl) stickyEl.textContent = fmt(rem); if (rem<=0) clearInterval(timer); }
+        tick(); const timer=setInterval(tick,1000);
+      } catch (e) { console.warn('config fetch failed'); }
+    })();
+  </script>
+</body>
+</html>
